@@ -1,7 +1,10 @@
 const express = require("express");
+var morgan = require("morgan");
+
 const app = express();
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
 // Hardcoded values for now
 let persons = [
@@ -28,8 +31,6 @@ let persons = [
 ];
 
 app.get("/api/info", (request, response) => {
-  console.log(request.headers);
-
   const info = `<p>Phonebook has info for ${persons.length} people</p>`;
   const date = `<p>${new Date()}</p>`;
 
@@ -37,7 +38,6 @@ app.get("/api/info", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  console.log(request.headers);
   response.json(persons);
 });
 
@@ -55,8 +55,6 @@ app.get("/api/persons/:id", (request, response) => {
 app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
 
-  console.log("DELETE", id);
-
   persons = persons.filter((person) => person.id !== id);
 
   response.status(204).end();
@@ -69,7 +67,6 @@ const generateId = () => {
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
-  console.log("POST", body);
 
   // Errors
   if (!body.name) {
