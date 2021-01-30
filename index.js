@@ -52,13 +52,12 @@ app.get("/api/people/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-// not implemented yet
-app.delete("/api/people/:id", (request, response) => {
-  const id = Number(request.params.id);
-
-  persons = persons.filter((person) => person.id !== id);
-
-  response.status(204).end();
+app.delete("/api/people/:id", (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.post("/api/people", (request, response) => {
@@ -81,13 +80,13 @@ app.post("/api/people", (request, response) => {
   });
 });
 
+// Unknown Endpoint
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
-
-// handler of requests with unknown endpoint
 app.use(unknownEndpoint);
 
+// Error Handling
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
@@ -97,7 +96,6 @@ const errorHandler = (error, request, response, next) => {
 
   next(error);
 };
-
 app.use(errorHandler);
 
 const PORT = process.env.PORT;
