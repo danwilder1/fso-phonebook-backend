@@ -1,5 +1,5 @@
-GET http://localhost:3001/api/persons/60147eec900781759bba4128
+GET http://localhost:3001/api/people/60147eec900781759bba4128
 ###
-GET http://localhost:3001/api/persons/60147eec900781759bba4127
+GET http://localhost:3001/api/people/60147eec900781759bba4127
 ###
-GET http://localhost:3001/api/persons/60147eec900781759bba
+GET http://localhost:3001/api/people/60147eec900781759bba
