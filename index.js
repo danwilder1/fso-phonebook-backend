@@ -18,7 +18,9 @@ morgan.token("post-data", (req, res) => {
 });
 app.use(
   morgan(
-    ":method :url :status :res[content-length] - :response-time ms :post-data"
+    "METHOD: :method\nURL: :url\nSTATUS: :status\n" +
+      "RESPONSE CONTENT LENGTH: :res[content-length]\n" +
+      "RESPONSE TIME: :response-time ms\nPOST DATA: :post-data\n"
   )
 );
 
@@ -31,13 +33,13 @@ app.get("/api/info", (request, response) => {
   });
 });
 
-app.get("/api/persons", (request, response) => {
+app.get("/api/people", (request, response) => {
   Person.find({}).then((people) => {
     response.json(people);
   });
 });
 
-app.get("/api/persons/:id", (request, response) => {
+app.get("/api/people/:id", (request, response) => {
   Person.findById(request.params.id)
     .then((person) => {
       if (person) {
@@ -52,7 +54,8 @@ app.get("/api/persons/:id", (request, response) => {
     });
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+// not implemented yet
+app.delete("/api/people/:id", (request, response) => {
   const id = Number(request.params.id);
 
   persons = persons.filter((person) => person.id !== id);
@@ -60,7 +63,7 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/people", (request, response) => {
   const body = request.body;
 
   if (!body.name) {
